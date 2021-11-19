@@ -1,8 +1,8 @@
 import socket
 
-def shell(connection):
+def shell(connection, CWD):
     while True:
-        command = input("$ ")
+        command = input(f"{CWD}$ ")
         if command == 'exit':
             connection.send('exit'.encode())
             break
